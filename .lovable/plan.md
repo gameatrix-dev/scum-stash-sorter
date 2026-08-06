@@ -1,22 +1,22 @@
-# Świeży build .exe dla Windows
+# Ładniejsza oprawa graficzna w klimacie SCUM
 
-Cel: wygenerować aktualną paczkę Windows z cennikiem skupu SCUM i udostępnić ją do pobrania w czacie.
+## Co się zmieni
 
-## Skąd pobrać
+1. **Hero z grafiką** — na górze strony baner z wygenerowaną grafiką w stylu SCUM (post-apo wyspa, opuszczona baza, mgła, militarny sprzęt). Ciemny gradient na dole obrazu, na nim tytuł "SCUM · Punkt skupu" i licznik pozycji. Zamiast obecnego pustego nagłówka.
 
-Gotowy plik pojawia się w czacie jako załącznik `SCUM-Skup-win32-x64.zip`. Po pobraniu rozpakowujesz folder i uruchamiasz `SCUM-Skup.exe`. Instalator nie jest potrzebny — aplikacja działa z rozpakowanego katalogu.
+2. **Tło strony** — subtelna tekstura (siatka / noise / metal) pod całą treścią, żeby panel nie leżał na płaskim czarnym tle.
 
-## Co zrobię
+3. **Panele i karty** — mocniejszy klimat HUD: cienkie obramowania z narożnikami, delikatny blask (glow) na cenach, hazard-strip jako akcent, hover z podświetleniem wiersza.
 
-1. Zbuduję desktopową wersję aplikacji z aktualną bazą (gwoździe 50, śruby 50, przecinarki 800, wiertarki 800, pamiętniki stack 20x 500).
-2. Spakuję ją do aplikacji Windows 64-bit.
-3. Dodam zapamiętywanie wpisanych ilości po zamknięciu programu, żeby praca w skupie nie ginęła.
-4. Wgram archiwum ZIP do pobrania i podam link w czacie.
+4. **Podsumowanie skupu** — wyróżniony panel z dużą sumą w stylu terminala + subtelny scanline.
+
+5. **Ikony pozycji** — mała ikona kategorii przy każdym przedmiocie (gwoździe/śruby/narzędzia/dokumenty), żeby lista nie była samym tekstem.
+
+Funkcjonalność (wyszukiwanie, sortowanie, ilości, przelicznik) zostaje bez zmian.
 
 ## Szczegóły techniczne
 
-- Renderer budowany osobnym configiem Vite (`electron/vite.config.ts`) do `dist-desktop/`, `base: './'`.
-- Pakowanie przez `@electron/packager` (`--platform=win32 --arch=x64`), instalowane jednorazowo w sandboxie i nieutrwalane w `package.json`, żeby nie psuć instalacji zależności projektu.
-- Wyniki buildu (`electron-release/`, `dist-desktop/`) pozostają w `.gitignore`; do repo nie trafiają binaria.
-- Persistencja ilości: `localStorage` w komponencie `PriceList` (bez backendu, działa offline).
-- Czcionki: aplikacja korzysta z lokalnych fallbacków, więc wygląd nie zależy od internetu.
+- 1–2 grafiki generowane do `src/assets/` (hero + ewentualna tekstura tła), importowane jako moduły.
+- Nowe tokeny w `src/styles.css`: gradient hero, glow cienia, scanline/noise jako `@utility`.
+- Zmiany wyłącznie w `src/components/PriceList.tsx` i `src/styles.css` (wersja desktop korzysta z tego samego komponentu).
+- Po akceptacji mogę przebudować też paczkę .exe z nowym wyglądem.
