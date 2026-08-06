@@ -46,8 +46,8 @@ function Index() {
   }, [query, asc, category]);
 
   const cart = ITEMS.filter((i) => (qty[i.name] ?? 0) > 0);
-  const total = cart.reduce((s, i) => s + i.price * qty[i.name], 0);
-  const totalUnits = cart.reduce((s, i) => s + qty[i.name], 0);
+  const total = cart.reduce((s, i) => s + i.price * (qty[i.name] ?? 0), 0);
+  const totalUnits = cart.reduce((s, i) => s + (qty[i.name] ?? 0), 0);
 
   const setItemQty = (name: string, value: number) =>
     setQty((p) => ({ ...p, [name]: Math.max(0, Math.floor(value) || 0) }));
@@ -178,9 +178,9 @@ function Index() {
                 {cart.map((i) => (
                   <li key={i.name} className="mono-num flex justify-between gap-2 text-xs">
                     <span className="truncate text-muted-foreground">
-                      {i.name} ×{qty[i.name]}
+                      {i.name} ×{qty[i.name] ?? 0}
                     </span>
-                    <span className="text-foreground">{currency(i.price * qty[i.name])}</span>
+                    <span className="text-foreground">{currency(i.price * (qty[i.name] ?? 0))}</span>
                   </li>
                 ))}
               </ul>
