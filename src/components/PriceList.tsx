@@ -222,8 +222,11 @@ export function PriceList() {
               </div>
               <div className="mt-2 flex items-end justify-between">
                 <span className="stencil text-xs text-muted-foreground">Koszt skupu</span>
-                <span className="mono-num text-2xl text-primary">{currency(total)}</span>
+                <span className="mono-num glow-primary text-3xl text-primary">
+                  {currency(total)}
+                </span>
               </div>
+
             </div>
 
             <button
