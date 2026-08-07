@@ -194,7 +194,7 @@ export function PriceList() {
 
         {/* Podsumowanie */}
         <aside className="lg:sticky lg:top-6 lg:self-start">
-          <div className="panel p-4">
+          <div className="panel corner-frame scanline p-4">
             <h2 className="text-lg text-primary">Kalkulacja skupu</h2>
             <div className="hazard-strip my-3 h-1" />
 
