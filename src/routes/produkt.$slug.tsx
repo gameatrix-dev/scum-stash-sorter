@@ -89,7 +89,7 @@ function ItemDetail() {
               </div>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
               <ul className="mt-4 space-y-1.5">
-                {item.notes.map((n) => (
+                {item.notes.map((n: string) => (
                   <li key={n} className="mono-num flex gap-2 text-xs text-muted-foreground">
                     <span className="text-primary">›</span>
                     {n}
