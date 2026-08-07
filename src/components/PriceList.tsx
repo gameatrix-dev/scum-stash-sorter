@@ -127,7 +127,7 @@ export function PriceList() {
           </div>
 
           {/* Tabela */}
-          <div className="panel mt-4 overflow-hidden">
+          <div className="panel corner-frame mt-4 overflow-hidden">
             <div className="stencil grid grid-cols-[1fr_5.5rem_6rem_7rem] gap-2 border-b border-border bg-secondary/60 px-3 py-2 text-[10px] text-muted-foreground">
               <span>Przedmiot</span>
               <span className="text-right">Cena</span>
@@ -144,6 +144,7 @@ export function PriceList() {
             <ul>
               {list.map((i) => {
                 const q = qty[i.name] ?? 0;
+                const Icon = iconFor(i.name);
                 return (
                   <li
                     key={i.name}
@@ -151,10 +152,22 @@ export function PriceList() {
                       q > 0 ? "bg-primary/5" : "hover:bg-secondary/40"
                     }`}
                   >
-                    <div className="min-w-0">
-                      <p className="truncate text-sm font-medium">{i.name}</p>
-                      <p className="stencil text-[10px] text-muted-foreground">{i.category}</p>
+                    <div className="flex min-w-0 items-center gap-3">
+                      <span
+                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-sm border transition-colors ${
+                          q > 0
+                            ? "border-primary/60 bg-primary/10 text-primary"
+                            : "border-border bg-background/50 text-muted-foreground"
+                        }`}
+                      >
+                        <Icon className="h-4 w-4" strokeWidth={1.5} />
+                      </span>
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-medium">{i.name}</p>
+                        <p className="stencil text-[10px] text-muted-foreground">{i.category}</p>
+                      </div>
                     </div>
+
                     <span className="mono-num text-right text-sm text-primary">
                       {currency(i.price)}
                     </span>
