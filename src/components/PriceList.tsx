@@ -1,8 +1,32 @@
 import { useMemo, useState } from "react";
-import { ArrowDownAZ, ArrowUpAZ, Search, Trash2, Crosshair } from "lucide-react";
+import {
+  ArrowDownAZ,
+  ArrowUpAZ,
+  Search,
+  Trash2,
+  Crosshair,
+  Hammer,
+  Wrench,
+  Drill,
+  Scissors,
+  BookOpen,
+  Package,
+} from "lucide-react";
 import { items as ITEMS } from "@/data/items";
+import heroImg from "@/assets/scum-hero.jpg";
 
 const currency = (n: number) => new Intl.NumberFormat("pl-PL").format(n);
+
+const iconFor = (name: string) => {
+  const n = name.toLowerCase();
+  if (n.includes("gwoźd") || n.includes("gwozd")) return Hammer;
+  if (n.includes("śrub") || n.includes("srub")) return Wrench;
+  if (n.includes("wiertar")) return Drill;
+  if (n.includes("przecinar")) return Scissors;
+  if (n.includes("pamiętnik") || n.includes("pamietnik")) return BookOpen;
+  return Package;
+};
+
 
 export function PriceList() {
   const [query, setQuery] = useState("");
