@@ -59,19 +59,32 @@ export function PriceList() {
     <main className="min-h-screen">
       <div className="hazard-strip h-2" />
 
-      <header className="border-b border-border">
-        <div className="mx-auto max-w-6xl px-4 py-8">
-          <div className="flex items-center gap-3">
-            <Crosshair className="h-7 w-7 text-primary" strokeWidth={1.5} />
-            <div>
-              <h1 className="text-3xl font-bold text-primary sm:text-4xl">SCUM · Punkt skupu</h1>
-              <p className="mono-num mt-1 text-xs text-muted-foreground">
-                CENNIK OPERACYJNY // {ITEMS.length} POZYCJI W BAZIE
-              </p>
+      <header className="relative border-b border-border">
+        <div className="scanline relative h-56 overflow-hidden sm:h-72">
+          <img
+            src={heroImg}
+            alt="Opuszczona baza wojskowa na wyspie SCUM o zmierzchu"
+            width={1920}
+            height={800}
+            className="h-full w-full object-cover object-center opacity-70"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/20" />
+          <div className="absolute inset-x-0 bottom-0">
+            <div className="mx-auto flex max-w-6xl items-end gap-3 px-4 pb-6">
+              <Crosshair className="h-9 w-9 shrink-0 text-primary" strokeWidth={1.5} />
+              <div>
+                <h1 className="glow-primary text-3xl font-bold text-primary sm:text-5xl">
+                  SCUM · Punkt skupu
+                </h1>
+                <p className="mono-num mt-1 text-xs text-muted-foreground">
+                  CENNIK OPERACYJNY // {ITEMS.length} POZYCJI W BAZIE
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </header>
+
 
       <div className="mx-auto grid max-w-6xl gap-6 px-4 py-8 lg:grid-cols-[1fr_20rem]">
         <section>
