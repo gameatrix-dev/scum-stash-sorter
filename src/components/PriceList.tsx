@@ -1,8 +1,32 @@
 import { useMemo, useState } from "react";
-import { ArrowDownAZ, ArrowUpAZ, Search, Trash2, Crosshair } from "lucide-react";
+import {
+  ArrowDownAZ,
+  ArrowUpAZ,
+  Search,
+  Trash2,
+  Crosshair,
+  Hammer,
+  Wrench,
+  Drill,
+  Scissors,
+  BookOpen,
+  Package,
+} from "lucide-react";
 import { items as ITEMS } from "@/data/items";
+import heroImg from "@/assets/scum-hero.jpg";
 
 const currency = (n: number) => new Intl.NumberFormat("pl-PL").format(n);
+
+const iconFor = (name: string) => {
+  const n = name.toLowerCase();
+  if (n.includes("gwoźd") || n.includes("gwozd")) return Hammer;
+  if (n.includes("śrub") || n.includes("srub")) return Wrench;
+  if (n.includes("wiertar")) return Drill;
+  if (n.includes("przecinar")) return Scissors;
+  if (n.includes("pamiętnik") || n.includes("pamietnik")) return BookOpen;
+  return Package;
+};
+
 
 export function PriceList() {
   const [query, setQuery] = useState("");
@@ -35,19 +59,32 @@ export function PriceList() {
     <main className="min-h-screen">
       <div className="hazard-strip h-2" />
 
-      <header className="border-b border-border">
-        <div className="mx-auto max-w-6xl px-4 py-8">
-          <div className="flex items-center gap-3">
-            <Crosshair className="h-7 w-7 text-primary" strokeWidth={1.5} />
-            <div>
-              <h1 className="text-3xl font-bold text-primary sm:text-4xl">SCUM · Punkt skupu</h1>
-              <p className="mono-num mt-1 text-xs text-muted-foreground">
-                CENNIK OPERACYJNY // {ITEMS.length} POZYCJI W BAZIE
-              </p>
+      <header className="relative border-b border-border">
+        <div className="scanline relative h-56 overflow-hidden sm:h-72">
+          <img
+            src={heroImg}
+            alt="Opuszczona baza wojskowa na wyspie SCUM o zmierzchu"
+            width={1920}
+            height={800}
+            className="h-full w-full object-cover object-center opacity-70"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/20" />
+          <div className="absolute inset-x-0 bottom-0">
+            <div className="mx-auto flex max-w-6xl items-end gap-3 px-4 pb-6">
+              <Crosshair className="h-9 w-9 shrink-0 text-primary" strokeWidth={1.5} />
+              <div>
+                <h1 className="glow-primary text-3xl font-bold text-primary sm:text-5xl">
+                  SCUM · Punkt skupu
+                </h1>
+                <p className="mono-num mt-1 text-xs text-muted-foreground">
+                  CENNIK OPERACYJNY // {ITEMS.length} POZYCJI W BAZIE
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </header>
+
 
       <div className="mx-auto grid max-w-6xl gap-6 px-4 py-8 lg:grid-cols-[1fr_20rem]">
         <section>
@@ -90,7 +127,7 @@ export function PriceList() {
           </div>
 
           {/* Tabela */}
-          <div className="panel mt-4 overflow-hidden">
+          <div className="panel corner-frame mt-4 overflow-hidden">
             <div className="stencil grid grid-cols-[1fr_5.5rem_6rem_7rem] gap-2 border-b border-border bg-secondary/60 px-3 py-2 text-[10px] text-muted-foreground">
               <span>Przedmiot</span>
               <span className="text-right">Cena</span>
@@ -107,6 +144,7 @@ export function PriceList() {
             <ul>
               {list.map((i) => {
                 const q = qty[i.name] ?? 0;
+                const Icon = iconFor(i.name);
                 return (
                   <li
                     key={i.name}
@@ -114,10 +152,22 @@ export function PriceList() {
                       q > 0 ? "bg-primary/5" : "hover:bg-secondary/40"
                     }`}
                   >
-                    <div className="min-w-0">
-                      <p className="truncate text-sm font-medium">{i.name}</p>
-                      <p className="stencil text-[10px] text-muted-foreground">{i.category}</p>
+                    <div className="flex min-w-0 items-center gap-3">
+                      <span
+                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-sm border transition-colors ${
+                          q > 0
+                            ? "border-primary/60 bg-primary/10 text-primary"
+                            : "border-border bg-background/50 text-muted-foreground"
+                        }`}
+                      >
+                        <Icon className="h-4 w-4" strokeWidth={1.5} />
+                      </span>
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-medium">{i.name}</p>
+                        <p className="stencil text-[10px] text-muted-foreground">{i.category}</p>
+                      </div>
                     </div>
+
                     <span className="mono-num text-right text-sm text-primary">
                       {currency(i.price)}
                     </span>
@@ -144,7 +194,7 @@ export function PriceList() {
 
         {/* Podsumowanie */}
         <aside className="lg:sticky lg:top-6 lg:self-start">
-          <div className="panel p-4">
+          <div className="panel corner-frame scanline p-4">
             <h2 className="text-lg text-primary">Kalkulacja skupu</h2>
             <div className="hazard-strip my-3 h-1" />
 
@@ -172,8 +222,11 @@ export function PriceList() {
               </div>
               <div className="mt-2 flex items-end justify-between">
                 <span className="stencil text-xs text-muted-foreground">Koszt skupu</span>
-                <span className="mono-num text-2xl text-primary">{currency(total)}</span>
+                <span className="mono-num glow-primary text-3xl text-primary">
+                  {currency(total)}
+                </span>
               </div>
+
             </div>
 
             <button
