@@ -1,38 +1,25 @@
 import { useMemo, useState } from "react";
+import { Link } from "@tanstack/react-router";
 import {
   ArrowDownAZ,
   ArrowUpAZ,
   Search,
   Trash2,
   Crosshair,
-  Hammer,
-  Wrench,
-  Drill,
-  Scissors,
-  BookOpen,
-  Package,
+  ChevronRight,
 } from "lucide-react";
 import { items as ITEMS } from "@/data/items";
+import { iconFor } from "@/data/icons";
+import { useQty } from "@/hooks/useQty";
 import heroImg from "@/assets/scum-hero.jpg";
 
 const currency = (n: number) => new Intl.NumberFormat("pl-PL").format(n);
-
-const iconFor = (name: string) => {
-  const n = name.toLowerCase();
-  if (n.includes("gwoźd") || n.includes("gwozd")) return Hammer;
-  if (n.includes("śrub") || n.includes("srub")) return Wrench;
-  if (n.includes("wiertar")) return Drill;
-  if (n.includes("przecinar")) return Scissors;
-  if (n.includes("pamiętnik") || n.includes("pamietnik")) return BookOpen;
-  return Package;
-};
-
 
 export function PriceList() {
   const [query, setQuery] = useState("");
   const [asc, setAsc] = useState(true);
   const [category, setCategory] = useState("Wszystkie");
-  const [qty, setQty] = useState<Record<string, number>>({});
+  const { qty, setItemQty, clear } = useQty();
 
   const categories = useMemo(
     () => ["Wszystkie", ...Array.from(new Set(ITEMS.map((i) => i.category))).sort()],
@@ -48,12 +35,9 @@ export function PriceList() {
     ).sort((a, b) => (asc ? 1 : -1) * a.name.localeCompare(b.name, "pl"));
   }, [query, asc, category]);
 
-  const cart = ITEMS.filter((i) => (qty[i.name] ?? 0) > 0);
-  const total = cart.reduce((s, i) => s + i.price * (qty[i.name] ?? 0), 0);
-  const totalUnits = cart.reduce((s, i) => s + (qty[i.name] ?? 0), 0);
-
-  const setItemQty = (name: string, value: number) =>
-    setQty((p) => ({ ...p, [name]: Math.max(0, Math.floor(value) || 0) }));
+  const cart = ITEMS.filter((i) => (qty[i.slug] ?? 0) > 0);
+  const total = cart.reduce((s, i) => s + i.price * (qty[i.slug] ?? 0), 0);
+  const totalUnits = cart.reduce((s, i) => s + (qty[i.slug] ?? 0), 0);
 
   return (
     <main className="min-h-screen">
@@ -84,7 +68,6 @@ export function PriceList() {
           </div>
         </div>
       </header>
-
 
       <div className="mx-auto grid max-w-6xl gap-6 px-4 py-8 lg:grid-cols-[1fr_20rem]">
         <section>
@@ -143,30 +126,45 @@ export function PriceList() {
 
             <ul>
               {list.map((i) => {
-                const q = qty[i.name] ?? 0;
-                const Icon = iconFor(i.name);
+                const q = qty[i.slug] ?? 0;
+                const Icon = iconFor(i.slug);
                 return (
                   <li
-                    key={i.name}
+                    key={i.slug}
                     className={`grid grid-cols-[1fr_5.5rem_6rem_7rem] items-center gap-2 border-b border-border/60 px-3 py-2 transition-colors last:border-0 ${
                       q > 0 ? "bg-primary/5" : "hover:bg-secondary/40"
                     }`}
                   >
-                    <div className="flex min-w-0 items-center gap-3">
+                    <Link
+                      to="/produkt/$slug"
+                      params={{ slug: i.slug }}
+                      className="group flex min-w-0 items-center gap-3 text-left"
+                    >
                       <span
-                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-sm border transition-colors ${
-                          q > 0
-                            ? "border-primary/60 bg-primary/10 text-primary"
-                            : "border-border bg-background/50 text-muted-foreground"
+                        className={`flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-sm border transition-colors ${
+                          q > 0 ? "border-primary/60" : "border-border group-hover:border-primary"
                         }`}
                       >
-                        <Icon className="h-4 w-4" strokeWidth={1.5} />
+                        <img
+                          src={i.image}
+                          alt={i.imageAlt}
+                          loading="lazy"
+                          width={1024}
+                          height={640}
+                          className="h-full w-full object-cover"
+                        />
                       </span>
                       <div className="min-w-0">
-                        <p className="truncate text-sm font-medium">{i.name}</p>
-                        <p className="stencil text-[10px] text-muted-foreground">{i.category}</p>
+                        <p className="truncate text-sm font-medium group-hover:text-primary">
+                          {i.name}
+                        </p>
+                        <p className="stencil flex items-center gap-1 text-[10px] text-muted-foreground">
+                          <Icon className="h-3 w-3" strokeWidth={1.5} />
+                          {i.category}
+                          <ChevronRight className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100" />
+                        </p>
                       </div>
-                    </div>
+                    </Link>
 
                     <span className="mono-num text-right text-sm text-primary">
                       {currency(i.price)}
@@ -177,7 +175,7 @@ export function PriceList() {
                       value={q === 0 ? "" : q}
                       placeholder="0"
                       aria-label={`Ilość: ${i.name}`}
-                      onChange={(e) => setItemQty(i.name, Number(e.target.value))}
+                      onChange={(e) => setItemQty(i.slug, Number(e.target.value))}
                       className="mono-num w-full rounded-sm border border-input bg-background/60 px-2 py-1 text-center text-sm outline-none focus:border-primary focus:ring-1 focus:ring-ring"
                     />
                     <span
@@ -205,11 +203,11 @@ export function PriceList() {
             ) : (
               <ul className="space-y-1.5">
                 {cart.map((i) => (
-                  <li key={i.name} className="mono-num flex justify-between gap-2 text-xs">
+                  <li key={i.slug} className="mono-num flex justify-between gap-2 text-xs">
                     <span className="truncate text-muted-foreground">
-                      {i.name} ×{qty[i.name] ?? 0}
+                      {i.name} ×{qty[i.slug] ?? 0}
                     </span>
-                    <span className="text-foreground">{currency(i.price * (qty[i.name] ?? 0))}</span>
+                    <span className="text-foreground">{currency(i.price * (qty[i.slug] ?? 0))}</span>
                   </li>
                 ))}
               </ul>
@@ -226,11 +224,10 @@ export function PriceList() {
                   {currency(total)}
                 </span>
               </div>
-
             </div>
 
             <button
-              onClick={() => setQty({})}
+              onClick={clear}
               disabled={cart.length === 0}
               className="stencil mt-4 inline-flex w-full items-center justify-center gap-2 rounded-sm border border-border bg-secondary px-3 py-2 text-xs text-secondary-foreground transition-colors hover:border-destructive hover:text-destructive disabled:opacity-40"
             >
