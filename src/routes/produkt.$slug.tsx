@@ -32,7 +32,7 @@ export const Route = createFileRoute("/produkt/$slug")({
     };
   },
   notFoundComponent: ItemNotFound,
-  component: ItemDetailРRoute,
+  component: ItemDetailRoute,
 });
 
 function ItemNotFound() {
@@ -49,7 +49,7 @@ function ItemNotFound() {
   );
 }
 
-function ItemDetailРRoute() {
+function ItemDetailRoute() {
   const { item } = Route.useLoaderData();
   return <ItemDetail item={item} />;
 }
