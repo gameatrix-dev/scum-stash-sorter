@@ -1,18 +1,60 @@
-import { BookOpen, Drill, Hammer, Package, Scissors, Wrench } from "lucide-react";
+import {
+  BatteryFull,
+  BookOpen,
+  Bandage,
+  Beaker,
+  Cable,
+  Circle,
+  Disc3,
+  Droplet,
+  Drill,
+  Fuel,
+  Hammer,
+  Lock,
+  Package,
+  PawPrint,
+  Pill,
+  Radio,
+  Scissors,
+  Smartphone,
+  Sprout,
+  Syringe,
+  Tent,
+  Wrench,
+  type LucideIcon,
+} from "lucide-react";
 
-export const iconFor = (slug: string) => {
-  switch (slug) {
-    case "gwozdzie":
-      return Hammer;
-    case "sruby":
-      return Wrench;
-    case "wiertarki":
-      return Drill;
-    case "przecinarki":
-      return Scissors;
-    case "pamietniki":
-      return BookOpen;
-    default:
-      return Package;
-  }
+const MAP: Record<string, LucideIcon> = {
+  przecinarki: Disc3,
+  wiertarki: Drill,
+  "nozyce-do-drutu": Scissors,
+  skalpel: Scissors,
+  nozyczki: Scissors,
+  "kamien-szlifierski": Hammer,
+  tasma: Circle,
+  klej: Droplet,
+  zamek: Lock,
+  "kula-medyczna": Pill,
+  strzykawki: Syringe,
+  "bandaz-elastyczny": Bandage,
+  "filtr-oleju": Wrench,
+  "kable-rozruchowe": Cable,
+  "olej-hamulcowy": Droplet,
+  "gumowy-waz": Circle,
+  "male-kanistry": Fuel,
+  "duze-kanistry": Fuel,
+  telefon: Smartphone,
+  baterie: BatteryFull,
+  "baterie-do-smartfona": BatteryFull,
+  "radio-zielone": Radio,
+  pamietniki: BookOpen,
+  papier: BookOpen,
+  wsuwki: Package,
+  skory: Package,
+  "zwierzeta-w-calosci": PawPrint,
+  "nawoz-przemyslowy": Sprout,
+  "srodki-od-chwastow": Beaker,
+  karimata: Tent,
 };
+
+export const iconFor = (slug: string): LucideIcon => MAP[slug] ?? Package;

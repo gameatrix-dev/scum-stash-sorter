@@ -1,8 +1,13 @@
-import gwozdzieImg from "@/assets/item-gwozdzie.jpg";
-import srubyImg from "@/assets/item-sruby.jpg";
 import przecinarkiImg from "@/assets/item-przecinarki.jpg";
 import wiertarkiImg from "@/assets/item-wiertarki.jpg";
 import pamietnikiImg from "@/assets/item-pamietniki.jpg";
+import narzedziaImg from "@/assets/cat-narzedzia.jpg";
+import medyczneImg from "@/assets/cat-medyczne.jpg";
+import pojazdyImg from "@/assets/cat-pojazdy.jpg";
+import elektronikaImg from "@/assets/cat-elektronika.jpg";
+import lootImg from "@/assets/cat-loot.jpg";
+import chemiaImg from "@/assets/cat-chemia.jpg";
+import obozImg from "@/assets/cat-oboz.jpg";
 
 export type Item = {
   slug: string;
@@ -16,67 +21,371 @@ export type Item = {
   notes: string[];
 };
 
+const ALT = {
+  narzedzia: "Zużyte narzędzia warsztatowe na stalowym stole",
+  medyczne: "Zestaw medyczny, strzykawki i bandaże na metalowym stole",
+  pojazdy: "Części samochodowe i płyny eksploatacyjne w mrocznym garażu",
+  elektronika: "Telefon, radio i baterie na porysowanej metalowej powierzchni",
+  loot: "Stos zdobytego lootu: pamiętniki, papiery i skóry",
+  chemia: "Worki z nawozem i kanistry ze środkami chemicznymi w szopie",
+  oboz: "Sprzęt obozowy przy ognisku o zmierzchu",
+};
+
 /** Ceny skupu w walucie gry (można edytować) */
 export const items: Item[] = [
-  {
-    slug: "gwozdzie",
-    name: "Gwoździe",
-    category: "Materiały",
-    price: 50,
-    unit: "za sztukę",
-    image: gwozdzieImg,
-    imageAlt: "Sterta zardzewiałych gwoździ w wojskowej skrzyni",
-    description:
-      "Podstawowy materiał konstrukcyjny. Niezbędny przy budowie baz, barykad i napraw drewnianych elementów. Skupujemy w dowolnej ilości.",
-    notes: ["Znajdziesz w garażach i szopach", "Zajmuje mało miejsca w plecaku", "Zawsze na stanie skupu"],
-  },
-  {
-    slug: "sruby",
-    name: "Śruby",
-    category: "Materiały",
-    price: 50,
-    unit: "za sztukę",
-    image: srubyImg,
-    imageAlt: "Garść metalowych śrub na porysowanej stalowej powierzchni",
-    description:
-      "Element craftingowy do konstrukcji metalowych i pojazdów. Chodliwy towar — przyjmujemy każdą ilość po stałej stawce.",
-    notes: ["Loot z warsztatów i fabryk", "Wymagane przy naprawie pojazdów", "Stała cena skupu"],
-  },
+  // ── Narzędzia ─────────────────────────────────────────────
   {
     slug: "przecinarki",
     name: "Przecinarki",
     category: "Narzędzia",
-    price: 800,
+    price: 1000,
     unit: "za sztukę",
     image: przecinarkiImg,
     imageAlt: "Zużyta przecinarka kątowa na warsztatowym stole",
     description:
-      "Elektronarzędzie wysokiej wartości. Pozwala ciąć metal, otwierać skrytki i rozbierać konstrukcje. Jeden z najlepiej płatnych przedmiotów w skupie.",
-    notes: ["Wysoka wartość — 800 za sztukę", "Sprawdź stan przed sprzedażą", "Loot z warsztatów i baz wojskowych"],
+      "Elektronarzędzie wysokiej wartości. Pozwala ciąć metal, otwierać skrytki i rozbierać konstrukcje. Jedna z najlepiej płatnych pozycji w skupie.",
+    notes: ["Wysoka wartość — 1000 za sztukę", "Loot z warsztatów i baz wojskowych", "Przyjmujemy również zużyte"],
   },
   {
     slug: "wiertarki",
     name: "Wiertarki",
     category: "Narzędzia",
-    price: 800,
+    price: 1000,
     unit: "za sztukę",
     image: wiertarkiImg,
     imageAlt: "Zniszczona wiertarka akumulatorowa na metalowym stole warsztatowym",
     description:
-      "Kluczowe narzędzie craftingowe. Potrzebne przy zaawansowanych konstrukcjach i modyfikacjach. Skupujemy w każdej ilości po najwyższej stawce.",
-    notes: ["Wysoka wartość — 800 za sztukę", "Częsty loot z garaży", "Przyjmujemy również zużyte"],
+      "Kluczowe narzędzie craftingowe. Potrzebne przy zaawansowanych konstrukcjach i modyfikacjach. Skupujemy w każdej ilości.",
+    notes: ["Wysoka wartość — 1000 za sztukę", "Częsty loot z garaży", "Przyjmujemy również zużyte"],
   },
   {
-    slug: "pamietniki",
-    name: "Pamiętniki (stack 20x)",
-    category: "Loot",
+    slug: "nozyce-do-drutu",
+    name: "Nożyce do drutu",
+    category: "Narzędzia",
+    price: 200,
+    unit: "za sztukę",
+    image: narzedziaImg,
+    imageAlt: ALT.narzedzia,
+    description:
+      "Przecinają ogrodzenia i kajdanki. Praktyczne narzędzie eksploracyjne — zawsze znajdzie nabywcę.",
+    notes: ["Loot z warsztatów i magazynów", "Stała stawka 200", "Stan nie ma znaczenia"],
+  },
+  {
+    slug: "skalpel",
+    name: "Skalpel",
+    category: "Narzędzia",
+    price: 100,
+    unit: "za sztukę",
+    image: narzedziaImg,
+    imageAlt: ALT.narzedzia,
+    description:
+      "Precyzyjne ostrze używane przy oprawianiu zwierząt i zabiegach medycznych. Lekki, warto zbierać przy okazji.",
+    notes: ["Loot ze szpitali i przychodni", "Zajmuje mało miejsca", "Przyjmujemy każdą ilość"],
+  },
+  {
+    slug: "nozyczki",
+    name: "Nożyczki",
+    category: "Narzędzia",
+    price: 100,
+    unit: "za sztukę",
+    image: narzedziaImg,
+    imageAlt: ALT.narzedzia,
+    description: "Drobne narzędzie craftingowe przydatne przy tkaninach i bandażach. Skupujemy w dowolnej ilości.",
+    notes: ["Loot z domów i biur", "Stawka 100 za sztukę", "Lekki przedmiot"],
+  },
+  {
+    slug: "kamien-szlifierski",
+    name: "Kamień szlifierski",
+    category: "Narzędzia",
     price: 500,
+    unit: "za sztukę",
+    image: narzedziaImg,
+    imageAlt: ALT.narzedzia,
+    description:
+      "Służy do ostrzenia noży, siekier i maczet. Poszukiwany przez graczy nastawionych na walkę wręcz.",
+    notes: ["Dobra stawka — 500", "Loot z warsztatów i szop", "Zużycie nie obniża ceny"],
+  },
+  {
+    slug: "tasma",
+    name: "Taśma",
+    category: "Narzędzia",
+    price: 40,
+    unit: "za sztukę",
+    image: narzedziaImg,
+    imageAlt: ALT.narzedzia,
+    description: "Uniwersalny materiał do napraw i craftingu. Tani, ale zawsze przyjmowany — warto donosić hurtem.",
+    notes: ["Najtańsza pozycja w skupie", "Zbieraj w większych ilościach", "Loot z garaży i sklepów"],
+  },
+  {
+    slug: "klej",
+    name: "Klej",
+    category: "Narzędzia",
+    price: 200,
+    unit: "za sztukę",
+    image: narzedziaImg,
+    imageAlt: ALT.narzedzia,
+    description: "Materiał craftingowy potrzebny przy naprawach i wytwarzaniu przedmiotów. Skupujemy bez limitu.",
+    notes: ["Stawka 200 za sztukę", "Loot ze sklepów i warsztatów", "Sprawdź, czy opakowanie jest pełne"],
+  },
+  {
+    slug: "zamek",
+    name: "Zamek",
+    category: "Narzędzia",
+    price: 700,
+    unit: "za sztukę",
+    image: narzedziaImg,
+    imageAlt: ALT.narzedzia,
+    description:
+      "Zabezpieczenie skrzyń, drzwi i pojazdów. Bardzo chodliwy towar wśród graczy budujących bazy.",
+    notes: ["Wysoka stawka — 700", "Loot z magazynów i sklepów", "Przyjmujemy każdy typ"],
+  },
+
+  // ── Medyczne ──────────────────────────────────────────────
+  {
+    slug: "kula-medyczna",
+    name: "Kula medyczna",
+    category: "Medyczne",
+    price: 1000,
+    unit: "za sztukę",
+    image: medyczneImg,
+    imageAlt: ALT.medyczne,
+    description:
+      "Rzadki zrzut medyczny o dużej wartości. Zawiera zaawansowane środki lecznicze — jedna z topowych pozycji skupu.",
+    notes: ["Topowa stawka — 1000", "Zrzuty i punkty medyczne", "Nie otwieraj przed sprzedażą"],
+  },
+  {
+    slug: "strzykawki",
+    name: "Strzykawki",
+    category: "Medyczne",
+    price: 100,
+    unit: "za sztukę",
+    image: medyczneImg,
+    imageAlt: ALT.medyczne,
+    description: "Podstawowy sprzęt medyczny do podawania leków. Częsty loot, przyjmujemy w dowolnej ilości.",
+    notes: ["Stawka 100 za sztukę", "Loot ze szpitali", "Zajmują mało miejsca"],
+  },
+  {
+    slug: "bandaz-elastyczny",
+    name: "Bandaż elastyczny",
+    category: "Medyczne",
+    price: 1000,
+    unit: "za sztukę",
+    image: medyczneImg,
+    imageAlt: ALT.medyczne,
+    description:
+      "Najbardziej ceniony opatrunek w grze — zatrzymuje krwawienie i można go używać wielokrotnie. Płacimy najwyższą stawkę.",
+    notes: ["Topowa stawka — 1000", "Loot ze szpitali i apteczek", "Przyjmujemy również używane"],
+  },
+
+  // ── Pojazdy ───────────────────────────────────────────────
+  {
+    slug: "filtr-oleju",
+    name: "Filtr oleju",
+    category: "Pojazdy",
+    price: 500,
+    unit: "za sztukę",
+    image: pojazdyImg,
+    imageAlt: ALT.pojazdy,
+    description: "Część eksploatacyjna niezbędna przy serwisie pojazdów. Stały popyt wśród kierowców.",
+    notes: ["Stawka 500", "Loot z garaży i stacji", "Sprawdź, czy nie jest zużyty"],
+  },
+  {
+    slug: "kable-rozruchowe",
+    name: "Kable rozruchowe",
+    category: "Pojazdy",
+    price: 400,
+    unit: "za sztukę",
+    image: pojazdyImg,
+    imageAlt: ALT.pojazdy,
+    description: "Pozwalają odpalić pojazd z rozładowanym akumulatorem. Bardzo praktyczny loot samochodowy.",
+    notes: ["Stawka 400", "Loot z garaży", "Przyjmujemy w każdej ilości"],
+  },
+  {
+    slug: "olej-hamulcowy",
+    name: "Olej hamulcowy",
+    category: "Pojazdy",
+    price: 300,
+    unit: "za sztukę",
+    image: pojazdyImg,
+    imageAlt: ALT.pojazdy,
+    description: "Płyn eksploatacyjny do układu hamulcowego. Potrzebny przy każdym remoncie pojazdu.",
+    notes: ["Stawka 300", "Loot ze stacji i warsztatów", "Cena za pełne opakowanie"],
+  },
+  {
+    slug: "gumowy-waz",
+    name: "Gumowy wąż",
+    category: "Pojazdy",
+    price: 200,
+    unit: "za sztukę",
+    image: pojazdyImg,
+    imageAlt: ALT.pojazdy,
+    description: "Służy do przepompowywania paliwa i napraw. Prosty, ale zawsze potrzebny element.",
+    notes: ["Stawka 200", "Loot z garaży i szop", "Stan bez znaczenia"],
+  },
+  {
+    slug: "male-kanistry",
+    name: "Małe kanistry",
+    category: "Pojazdy",
+    price: 500,
+    unit: "za sztukę",
+    image: pojazdyImg,
+    imageAlt: ALT.pojazdy,
+    description: "Poręczny pojemnik na paliwo. Skupujemy puste i pełne — cena dotyczy samego kanistra.",
+    notes: ["Stawka 500", "Cena za sam kanister", "Loot ze stacji paliw"],
+  },
+  {
+    slug: "duze-kanistry",
+    name: "Duże kanistry",
+    category: "Pojazdy",
+    price: 1000,
+    unit: "za sztukę",
+    image: pojazdyImg,
+    imageAlt: ALT.pojazdy,
+    description: "Duży zbiornik na paliwo — podstawa dłuższych wypraw pojazdem. Topowa stawka w kategorii.",
+    notes: ["Topowa stawka — 1000", "Cena za sam kanister", "Loot ze stacji i baz"],
+  },
+
+  // ── Elektronika ───────────────────────────────────────────
+  {
+    slug: "telefon",
+    name: "Telefon",
+    category: "Elektronika",
+    price: 200,
+    unit: "za sztukę",
+    image: elektronikaImg,
+    imageAlt: ALT.elektronika,
+    description: "Smartfon używany m.in. do detonatorów i elektroniki. Częsty loot z domów i biur.",
+    notes: ["Stawka 200", "Loot z domów i biur", "Rozładowany też przyjmiemy"],
+  },
+  {
+    slug: "baterie",
+    name: "Baterie",
+    category: "Elektronika",
+    price: 200,
+    unit: "za sztukę",
+    image: elektronikaImg,
+    imageAlt: ALT.elektronika,
+    description: "Zasilanie latarek, radia i urządzeń elektronicznych. Zawsze na liście zakupów skupu.",
+    notes: ["Stawka 200", "Loot ze sklepów i domów", "Przyjmujemy w każdej ilości"],
+  },
+  {
+    slug: "baterie-do-smartfona",
+    name: "Baterie do smartfona",
+    category: "Elektronika",
+    price: 200,
+    unit: "za sztukę",
+    image: elektronikaImg,
+    imageAlt: ALT.elektronika,
+    description: "Ogniwo do telefonów i konstrukcji elektronicznych. Poszukiwane przy craftingu zaawansowanym.",
+    notes: ["Stawka 200", "Loot z biur i sklepów", "Lekki przedmiot"],
+  },
+  {
+    slug: "radio-zielone",
+    name: "Radio zielone",
+    category: "Elektronika",
+    price: 300,
+    unit: "za sztukę",
+    image: elektronikaImg,
+    imageAlt: ALT.elektronika,
+    description: "Wojskowe radio polowe — komunikacja i nasłuch. Ceniony sprzęt wśród grup graczy.",
+    notes: ["Stawka 300", "Loot z baz wojskowych", "Przyjmujemy bez baterii"],
+  },
+
+  // ── Loot ──────────────────────────────────────────────────
+  {
+    slug: "pamietniki",
+    name: "Pamiętniki / papier (stack 20x)",
+    category: "Loot",
+    price: 1600,
     unit: "za stack 20 sztuk",
     image: pamietnikiImg,
     imageAlt: "Stos zniszczonych, skórzanych pamiętników na zakurzonym stole",
     description:
-      "Cenny loot zbierany w opuszczonych domach. Skup przyjmuje wyłącznie pełne stacki po 20 sztuk — cena dotyczy całego stacka.",
-    notes: ["Cena za pełny stack 20x", "Niepełne stacki nie są przyjmowane", "Loot z domów i biur"],
+      "Cenny loot zbierany w opuszczonych domach. Cena dotyczy pełnego stacka 20 sztuk — niepełne stacki rozliczamy po sztuce.",
+    notes: ["Cena za pełny stack 20x", "Pojedyncze sztuki po 80", "Loot z domów i biur"],
+  },
+  {
+    slug: "papier",
+    name: "Papier / pamiętnik (1 szt.)",
+    category: "Loot",
+    price: 80,
+    unit: "za sztukę",
+    image: pamietnikiImg,
+    imageAlt: "Pojedynczy zniszczony pamiętnik na zakurzonym stole",
+    description: "Pojedyncza sztuka papieru lub pamiętnika. Opłaca się zbierać do pełnego stacka 20x.",
+    notes: ["Stawka 80 za sztukę", "Pełny stack 20x = 1600", "Loot z domów i biur"],
+  },
+  {
+    slug: "wsuwki",
+    name: "Wsuwki (stack 20x)",
+    category: "Loot",
+    price: 200,
+    unit: "za stack 20 sztuk",
+    image: lootImg,
+    imageAlt: ALT.loot,
+    description: "Wsuwki do włosów — podstawa lockpickingu. Skupujemy w pełnych stackach po 20 sztuk.",
+    notes: ["Cena za pełny stack 20x", "Niepełne stacki nie są przyjmowane", "Loot z domów i łazienek"],
+  },
+  {
+    slug: "skory",
+    name: "Skóry",
+    category: "Loot",
+    price: 200,
+    unit: "za sztukę",
+    image: lootImg,
+    imageAlt: ALT.loot,
+    description: "Surowe skóry zwierzęce do garbowania i craftingu odzieży. Przyjmujemy w każdym stanie.",
+    notes: ["Stawka 200 za sztukę", "Z polowań i oprawiania", "Świeże i wysuszone"],
+  },
+  {
+    slug: "zwierzeta-w-calosci",
+    name: "Zwierzęta w całości",
+    category: "Loot",
+    price: 1000,
+    unit: "za sztukę",
+    image: lootImg,
+    imageAlt: ALT.loot,
+    description:
+      "Nieoprawione zwierzę dostarczone w całości. Płacimy topową stawkę — oprawianiem zajmujemy się sami.",
+    notes: ["Topowa stawka — 1000", "Nie oprawiaj przed sprzedażą", "Z polowania w głębi wyspy"],
+  },
+
+  // ── Chemia ────────────────────────────────────────────────
+  {
+    slug: "nawoz-przemyslowy",
+    name: "Nawóz przemysłowy",
+    category: "Chemia",
+    price: 1000,
+    unit: "za sztukę",
+    image: chemiaImg,
+    imageAlt: ALT.chemia,
+    description:
+      "Składnik do upraw i zaawansowanego craftingu. Rzadki loot z gospodarstw — jedna z najlepiej płatnych pozycji.",
+    notes: ["Topowa stawka — 1000", "Loot z farm i szop", "Cena za pełen worek"],
+  },
+  {
+    slug: "srodki-od-chwastow",
+    name: "Środki od chwastów",
+    category: "Chemia",
+    price: 400,
+    unit: "za sztukę",
+    image: chemiaImg,
+    imageAlt: ALT.chemia,
+    description: "Chemia rolnicza używana w craftingu. Stały popyt, przyjmujemy w dowolnej ilości.",
+    notes: ["Stawka 400", "Loot z farm i magazynów", "Cena za pełne opakowanie"],
+  },
+
+  // ── Obóz ──────────────────────────────────────────────────
+  {
+    slug: "karimata",
+    name: "Karimata",
+    category: "Obóz",
+    price: 800,
+    unit: "za sztukę",
+    image: obozImg,
+    imageAlt: ALT.oboz,
+    description: "Mata do spania — podstawa obozowiska i regeneracji. Chodliwy towar wśród graczy w terenie.",
+    notes: ["Wysoka stawka — 800", "Loot z domów i kempingów", "Stan bez znaczenia"],
   },
 ];
 
