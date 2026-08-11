@@ -11,7 +11,9 @@ import {
 import { items as ITEMS } from "@/data/items";
 import { iconFor } from "@/data/icons";
 import { useQty } from "@/hooks/useQty";
+import { QuoteImage } from "@/components/QuoteImage";
 import heroImg from "@/assets/scum-hero.jpg";
+
 
 const currency = (n: number) => new Intl.NumberFormat("pl-PL").format(n);
 
@@ -226,13 +228,18 @@ export function PriceList() {
               </div>
             </div>
 
+            <QuoteImage
+              lines={cart.map((i) => ({ name: i.name, price: i.price, qty: qty[i.slug] ?? 0 }))}
+            />
+
             <button
               onClick={clear}
               disabled={cart.length === 0}
-              className="stencil mt-4 inline-flex w-full items-center justify-center gap-2 rounded-sm border border-border bg-secondary px-3 py-2 text-xs text-secondary-foreground transition-colors hover:border-destructive hover:text-destructive disabled:opacity-40"
+              className="stencil mt-3 inline-flex w-full items-center justify-center gap-2 rounded-sm border border-border bg-secondary px-3 py-2 text-xs text-secondary-foreground transition-colors hover:border-destructive hover:text-destructive disabled:opacity-40"
             >
               <Trash2 className="h-4 w-4" /> Wyczyść
             </button>
+
           </div>
         </aside>
       </div>
