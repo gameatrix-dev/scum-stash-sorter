@@ -7,6 +7,10 @@ import {
   Circle,
   Disc3,
   Droplet,
+  Eye,
+  Flame,
+  Shirt,
+
   Drill,
   Fuel,
   Hammer,
@@ -52,8 +56,22 @@ const MAP: Record<string, LucideIcon> = {
   wsuwki: Package,
   skory: Package,
   "zwierzeta-w-calosci": PawPrint,
+  "mieso-niedzwiedz": PawPrint,
+  "tluszcz-zwierzecy": PawPrint,
+  "flaki-zwierzece": PawPrint,
+  "glowy-zwierzat": PawPrint,
+  "oczy-kukiel": Eye,
+  "seksowne-szorty": Shirt,
+  "pila-lancuchowa": Hammer,
+  lom: Wrench,
+  lewarek: Wrench,
+  "maseczka-jednorazowa": Bandage,
+  igla: Syringe,
+  "opatrunek-hemostatyczny": Bandage,
+  "kuchenka-elektryczna": Flame,
   "nawoz-przemyslowy": Sprout,
   "srodki-od-chwastow": Beaker,
+
   karimata: Tent,
 };
 
