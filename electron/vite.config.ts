@@ -27,15 +27,19 @@ export default defineConfig({
             return "";
           },
         );
+        let inlineCss = "";
         html = html.replace(
           /<link[^>]*rel="stylesheet"[^>]*href="\.?\/?([^"]+\.css)"[^>]*>/g,
           (_m, href: string) => {
             const css = fs.readFileSync(path.join(out, href), "utf8");
-            return `<style>${css}</style>`;
+            inlineCss += css;
+            return "";
           },
         );
 
-        html = html.replace("</body>", `<script>${inlineJs}</script></body>`);
+        html = html.replace("</head>", () => `<style>${inlineCss}</style></head>`);
+        const safeJs = inlineJs.split("</script").join("<\\/script");
+        html = html.replace("</body>", () => `<script>${safeJs}</script></body>`);
         fs.writeFileSync(htmlPath, html);
         fs.rmSync(path.join(out, "assets"), { recursive: true, force: true });
       },
