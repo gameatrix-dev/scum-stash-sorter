@@ -1,14 +1,8 @@
-const { app, BrowserWindow, protocol, net } = require("electron");
+const { app, BrowserWindow } = require("electron");
 const path = require("path");
-const url = require("url");
 
-// Serve the built SPA over a custom scheme: file:// blocks ES modules (CORS).
-protocol.registerSchemesAsPrivileged([
-  { scheme: "app", privileges: { standard: true, secure: true, supportFetchAPI: true } },
-]);
-
-const ROOT = path.join(__dirname, "..", "dist-desktop");
-
+// The renderer is a single self-contained index.html (all JS/CSS/images inlined),
+// so it loads fine straight from disk.
 function createWindow() {
   const win = new BrowserWindow({
     width: 1280,
@@ -22,18 +16,10 @@ function createWindow() {
     },
   });
 
-  win.loadURL("app://local/index.html");
+  win.loadFile(path.join(__dirname, "..", "dist-desktop", "index.html"));
 }
 
 app.whenReady().then(() => {
-  protocol.handle("app", (request) => {
-    const { pathname } = new URL(request.url);
-    const rel = decodeURIComponent(pathname).replace(/^\/+/, "") || "index.html";
-    let filePath = path.join(ROOT, rel);
-    if (!filePath.startsWith(ROOT)) filePath = path.join(ROOT, "index.html");
-    return net.fetch(url.pathToFileURL(filePath).toString());
-  });
-
   createWindow();
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
