@@ -19,11 +19,12 @@ export default defineConfig({
         const htmlPath = path.join(out, "index.html");
         let html = fs.readFileSync(htmlPath, "utf8");
 
+        let inlineJs = "";
         html = html.replace(
           /<script[^>]*src="\.?\/?([^"]+\.js)"[^>]*><\/script>/g,
           (_m, src: string) => {
-            const js = fs.readFileSync(path.join(out, src), "utf8");
-            return `<script>${js}</script>`;
+            inlineJs += fs.readFileSync(path.join(out, src), "utf8");
+            return "";
           },
         );
         html = html.replace(
@@ -34,6 +35,7 @@ export default defineConfig({
           },
         );
 
+        html = html.replace("</body>", `<script>${inlineJs}</script></body>`);
         fs.writeFileSync(htmlPath, html);
         fs.rmSync(path.join(out, "assets"), { recursive: true, force: true });
       },
